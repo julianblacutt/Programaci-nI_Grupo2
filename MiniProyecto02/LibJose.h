@@ -129,8 +129,7 @@ void reporteConsolidado()
     while (archEst.read((char*)&est, sizeof(structEstudiante))) 
     {
 
-        cout << "\nEstudiante: "<< est.apellidos << ", "<< est.nombres<< " [CI: "<< est.ci<< "]" << endl;
-        cout << "--------------------------------------------" << endl;
+        cout << "\nEstudiante: "<< est.apellidos << ", "<< est.nombres<< " CI: "<< est.ci<<endl;
 
         ifstream archNotas;
         structNotas notaReg;
@@ -143,7 +142,7 @@ void reporteConsolidado()
 
             if (cadenasIguales(notaReg.ci, est.ci)) 
             {
-                cout << "\tMateria: "<< notaReg.materia<< " -> Nota: " << notaReg.nota << endl;
+                cout << "\tMateria: "<< notaReg.materia<< ", posee la Nota: " << notaReg.nota << endl;
                 tieneNotas = true;
             }
         }
