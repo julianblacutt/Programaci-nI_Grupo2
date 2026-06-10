@@ -4,23 +4,25 @@
 //Fecha creación: 01/06/26
 //Nombre del miniproyecto: Ejercicio 1 (Sistema de Registro Académico Consolidado)
 #include <iostream>
-#include "LibJulian.h"
+#include <string>
+#include <fstream>
 #include "LibJose.h"
+#include "LibJulian.h"
 
 using namespace std;
 
-void desplegarMenu();
+void desplegarMenu(string nombreArchivo);
 int main()
 {
     system("chcp 65001");
     system("cls");
-    
+    string nombreArchivo;
     cout<<"SISTEMA DE REGISTRO ACADÉMICO CONSOLIDADO"<<endl;
     cout<<"========================================="<<endl;
-    desplegarMenu();
+    desplegarMenu(nombreArchivo);
     return 0;
 }
-void desplegarMenu()
+void desplegarMenu(string nombreArchivo)
 {
     int op=0;
     do
@@ -38,23 +40,28 @@ void desplegarMenu()
         switch (op)
         {
         case 1:
-            cout<<"Usted a elegido: Adicionar Estudiante"<<endl;
+            cout<<"Usted a eligió: Adicionar Estudiante"<<endl;
+            adicionarEstudiante();
             system("pause");
             break;
         case 2:
-            cout<<"Usted a elegido: Registrar Calificación"<<endl;
+            cout<<"Usted eligió: Registrar Calificación"<<endl;
+            RegistrarCalificacion();
             system("pause");
             break;
         case 3:
-            cout<<"Usted a elegido: Reporte Consolidado de Calificaciones"<<endl;
+            cout<<"Usted eligió: Reporte Consolidado de Calificaciones"<<endl;
+            reporteConsolidado();
             system("pause");
             break;
         case 4:
-            cout<<"Usted a elegido: Modificación de notas"<<endl;
+            cout<<"Usted eligió: Modificación de notas"<<endl;
+            modificarNota();
             system("pause");
             break;
         case 5:
-            cout<<"Usted a elegido: Modificación de Datos Personales"<<endl;
+            cout<<"Usted eligió: Modificación de Datos Personales"<<endl;
+            ModificarDatosPersonales();
             system("pause");
             break;
         default:
@@ -67,5 +74,5 @@ void desplegarMenu()
         }
     } while (op!=6);
     system("cls");
-    cout<<"Usted a elegido: Salir del Programa"<<endl;
+    cout<<"Usted eligió: Salir del Programa"<<endl;
 }
