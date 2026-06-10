@@ -17,34 +17,37 @@ void adicionarEstudiante();
 void reporteConsolidado();
 void modificarNota();
 
-struct structEstudiante {
+struct structEstudiante 
+{
     char ci[10];
     char nombres[30];
     char apellidos[30];
 };
 
-struct structNotas {
+struct structNotas 
+{
     char ci[10];
     char materia[30];
     int nota;
 };
 
-// Comparación manual de cadenas carácter por carácter
-bool cadenasIguales(const char* cad1, const char* cad2) {
+bool cadenasIguales(const char* cad1, const char* cad2) 
+{
     int i = 0;
-
-    while ((cad1[i] != '\0') and (cad2[i] != '\0') and (cad1[i] == cad2[i])) {
+    while ((cad1[i] != '\0') and (cad2[i] != '\0') and (cad1[i] == cad2[i])) 
+    {
         i++;
     }
 
     return ((cad1[i] == '\0') and (cad2[i] == '\0'));
 }
 
-// Copia manual de cadena de un origen a un destino
-void copiarCadena(char* destino, const char* origen) {
+void copiarCadena(char* destino, const char* origen) 
+{
     int i = 0;
 
-    while (origen[i] != '\0') {
+    while (origen[i] != '\0') 
+    {
         destino[i] = origen[i];
         i++;
     }
@@ -52,20 +55,23 @@ void copiarCadena(char* destino, const char* origen) {
     destino[i] = '\0';
 }
 
-// Validación de existencia de estudiante
-bool existeEstudiante(const char* ciBuscar) {
+bool existeEstudiante(const char* ciBuscar) 
+{
     ifstream archivo;
     archivo.open("Estudiantes.bin", ios::binary);
 
-    if (!archivo.good()) {
+    if (!archivo.good()) 
+    {
         return false;
     }
 
     structEstudiante est;
     bool encontrado = false;
 
-    while ((archivo.read((char*)&est, sizeof(structEstudiante))) and (!encontrado)) {
-        if (cadenasIguales(est.ci, ciBuscar)) {
+    while ((archivo.read((char*)&est, sizeof(structEstudiante))) and (!encontrado)) 
+    {
+        if (cadenasIguales(est.ci, ciBuscar)) 
+        {
             encontrado = true;
         }
     }
@@ -74,19 +80,19 @@ bool existeEstudiante(const char* ciBuscar) {
     return encontrado;
 }
 
-// 1. ADICIONAR ESTUDIANTE
-void adicionarEstudiante() {
+// Función Opción 1
+void adicionarEstudiante() 
+{
     structEstudiante est;
     ofstream archivo;
 
-    cout << "ADICIONAR ESTUDIANTE" << endl;
-    cout << "====================" << endl;
-
+    cout << "1. Adicionar Estudiante" << endl;
     cout << "Ingrese CI: ";
     cin >> est.ci;
 
-    if (existeEstudiante(est.ci)) {
-        cout << "Error: El estudiante con este CI ya existe." << endl;
+    if (existeEstudiante(est.ci)) 
+    {
+        cout << "El estudiante con este CI ya existe." << endl;
         return;
     }
 
@@ -104,30 +110,26 @@ void adicionarEstudiante() {
     cout << "Estudiante registrado de forma correcta." << endl;
 }
 
-// 3. REPORTE CONSOLIDADO DE CALIFICACIONES
-void reporteConsolidado() {
+// Función Opción 3
+void reporteConsolidado() 
+{
     ifstream archEst;
     structEstudiante est;
 
     archEst.open("Estudiantes.bin", ios::binary);
 
-    if (!archEst.good()) {
+    if (!archEst.good()) 
+    {
         cout << "No existen estudiantes registrados en el sistema." << endl;
         return;
     }
 
-    cout << "REPORTE CONSOLIDADO DE NOTAS" << endl;
-    cout << "============================" << endl;
+    cout << "3. Reporte Consolidado de Notas" << endl;
 
-    while (archEst.read((char*)&est, sizeof(structEstudiante))) {
+    while (archEst.read((char*)&est, sizeof(structEstudiante))) 
+    {
 
-        cout << "\nEstudiante: "
-             << est.apellidos << ", "
-             << est.nombres
-             << " [CI: "
-             << est.ci
-             << "]" << endl;
-
+        cout << "\nEstudiante: "<< est.apellidos << ", "<< est.nombres<< " [CI: "<< est.ci<< "]" << endl;
         cout << "--------------------------------------------" << endl;
 
         ifstream archNotas;
@@ -136,15 +138,12 @@ void reporteConsolidado() {
 
         archNotas.open("Notas.bin", ios::binary);
 
-        while (archNotas.good() and archNotas.read((char*)&notaReg, sizeof(structNotas))) {
+        while (archNotas.good() and archNotas.read((char*)&notaReg, sizeof(structNotas))) 
+        {
 
-            if (cadenasIguales(notaReg.ci, est.ci)) {
-                cout << "\tMateria: "
-                     << notaReg.materia
-                     << " -> Nota: "
-                     << notaReg.nota
-                     << endl;
-
+            if (cadenasIguales(notaReg.ci, est.ci)) 
+            {
+                cout << "\tMateria: "<< notaReg.materia<< " -> Nota: " << notaReg.nota << endl;
                 tieneNotas = true;
             }
         }
@@ -159,35 +158,36 @@ void reporteConsolidado() {
     archEst.close();
 }
 
-// 4. MODIFICACIÓN DE NOTAS
-void modificarNota() {
+// Función Opción 4
+void modificarNota() 
+{
     fstream archivo;
     structNotas notaReg;
     char ciBuscar[10];
     char materiaBuscar[30];
     bool encontrada = false;
 
-    cout << "MODIFICAR NOTA DE ESTUDIANTE" << endl;
-    cout << "=============================" << endl;
-
+    cout << "4. Modificar Nota de Estudiante" << endl;
     cout << "Ingrese CI del estudiante: ";
     cin >> ciBuscar;
-
     cout << "Ingrese la materia a modificar: ";
     cin.ignore();
     cin.getline(materiaBuscar, 30);
 
     archivo.open("Notas.bin", ios::in | ios::out | ios::binary);
 
-    if (!archivo.good()) {
+    if (!archivo.good()) 
+    {
         cout << "No existe el archivo de notas." << endl;
         return;
     }
 
-    while ((archivo.read((char*)&notaReg, sizeof(structNotas))) and (!encontrada)) {
+    while ((archivo.read((char*)&notaReg, sizeof(structNotas))) and (!encontrada)) 
+    {
 
         if ((cadenasIguales(notaReg.ci, ciBuscar)) and
-            (cadenasIguales(notaReg.materia, materiaBuscar))) {
+            (cadenasIguales(notaReg.materia, materiaBuscar))) 
+        {
 
             cout << "Nota actual: " << notaReg.nota << endl;
             cout << "Ingrese la nueva nota: ";
@@ -202,10 +202,12 @@ void modificarNota() {
 
     archivo.close();
 
-    if (encontrada) {
+    if (encontrada) 
+    {
         cout << "La calificación ha sido modificada correctamente." << endl;
     }
-    else {
+    else 
+    {
         cout << "Registro de calificación no encontrado en el sistema." << endl;
     }
 }
